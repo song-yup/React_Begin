@@ -7,20 +7,24 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [movie, setMovie] = useState({});
   const [genres, setGenres] = useState([]);
+
   const getMovie = useCallback(async () => {
     const json = await (
       await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
     ).json();
     setLoading((current) => !current);
     setMovie(json.data.movie);
-    setGenres(json.data.movie.genres); // TODO setGenres(movie.genres) 로는 세팅이 안됨
-    // console.log(json);
+    setGenres(json.data.movie.genres);
+    console.log(json.data.movie);
+    console.log(json.data.movie.genres);
   }, [id]);
+  
   useEffect(() => {
     if (id !== "" && id.length > 1) {
       getMovie();
     }
-  }, [getMovie, id]); //  React Hook useEffect has missing dependencies: 'getMovie' and 'id'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  }, [getMovie, id]);
+  
   return (
     <div className={styles.container}>
       {loading ? (
